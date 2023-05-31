@@ -21,7 +21,7 @@ const Main = () => {
   };
 
   return (
-    <div className='w-full h-[600px] text-white mt-[-23px]'>
+    <div className='w-full h-[600px] text-white mt-[-26px]'>
       <div className='w-full h-full'>
         <div className='w-full h-[600px] absolute bg-gradient-to-r from-black'></div>
         <img
