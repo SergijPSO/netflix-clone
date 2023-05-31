@@ -14,14 +14,16 @@ const Navbar = () => {
       console.log(error);
     }
   };
+  // console.log(user);
 
-  console.log(user);
   return (
     <div className='flex items-center justify-between p-4 z-[100] w-full absolute'>
       <Link to='/'>
-        <h1 className='text-red-600 text-4xl font-bold cursor-pointer'>
-          NETFLIX
-        </h1>
+        <img
+          className='w-[89px] sm:w-[148px] inline-block'
+          src='/logo.png'
+          alt='logo'
+        />
       </Link>
       {user?.email ? (
         <div>
@@ -30,7 +32,7 @@ const Navbar = () => {
           </Link>
           <button
             onClick={handleLogOut}
-            className='bg-red-600 px-6 py-2 rounded cursor-pointer text-white'
+            className='bg-red-600 px-3 sm:px-6 py-2 rounded cursor-pointer text-white'
           >
             Log Out
           </button>
@@ -41,7 +43,7 @@ const Navbar = () => {
             <button className='text-white pr-4'>Sign In</button>
           </Link>
           <Link to='/sign-up'>
-            <button className='bg-red-600 px-6 py-2 rounded cursor-pointer text-white'>
+            <button className='bg-red-600 px-3 sm:px-6 py-2 rounded cursor-pointer text-white'>
               Sign Up
             </button>
           </Link>
