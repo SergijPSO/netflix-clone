@@ -1,10 +1,17 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Movie from "./Movie";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
-const Row = ({ title, fetchURL, rowID }) => {
+type RowProps = {
+  title: string;
+  fetchURL: string;
+  rowID: string;
+};
+
+const Row = ({ title, fetchURL, rowID }: RowProps) => {
   const [movies, setMovies] = useState([]);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     axios.get(fetchURL).then((response) => {
@@ -13,13 +20,15 @@ const Row = ({ title, fetchURL, rowID }) => {
   }, [fetchURL]);
 
   const slideLeft = () => {
-    let slider = document.getElementById("slider" + rowID);
-    slider.scrollLeft -= 500;
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft -= 500;
+    }
   };
 
   const slideRight = () => {
-    let slider = document.getElementById("slider" + rowID);
-    slider.scrollLeft += 500;
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft += 500;
+    }
   };
 
   return (
@@ -32,6 +41,7 @@ const Row = ({ title, fetchURL, rowID }) => {
           size={40}
         />
         <div
+          ref={sliderRef}
           id={"slider" + rowID}
           className='w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative'
         >

@@ -1,31 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import { UserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 import { updateDoc, doc, onSnapshot } from "firebase/firestore";
 import { AiOutlineClose } from "react-icons/ai";
 
 const SavedShows = () => {
-  const [movies, setMovies] = useState([]);
-  const { user } = UserAuth();
+  const [movies, setMovies] = useState<any[]>([]);
+  const { user } = useUserAuth();
 
   const slideLeft = () => {
-    var slider = document.getElementById("slider");
-    slider.scrollLeft = slider.scrollLeft - 500;
+    const slider = document.getElementById("slider");
+    if (slider) {
+      slider.scrollLeft -= 500;
+    }
   };
+
   const slideRight = () => {
-    var slider = document.getElementById("slider");
-    slider.scrollLeft = slider.scrollLeft + 500;
+    const slider = document.getElementById("slider");
+    if (slider) {
+      slider.scrollLeft += 500;
+    }
   };
 
   useEffect(() => {
-    onSnapshot(doc(db, "users", `${user?.email}`), (doc) => {
-      setMovies(doc.data()?.savedShows);
-    });
+    if (user?.email) {
+      const unsubscribe = onSnapshot(
+        doc(db, "users", user.email ?? ""),
+        (doc) => {
+          setMovies(doc.data()?.savedShows);
+        }
+      );
+
+      return () => {
+        unsubscribe();
+      };
+    }
   }, [user?.email]);
 
-  const movieRef = doc(db, "users", `${user?.email}`);
-  const deleteShow = async (passedID) => {
+  const movieRef = doc(db, "users", user?.email ?? "");
+  const deleteShow = async (passedID: string) => {
     try {
       const result = movies.filter((item) => item.id !== passedID);
       await updateDoc(movieRef, {
@@ -46,7 +60,7 @@ const SavedShows = () => {
           size={40}
         />
         <div
-          id={"slider"}
+          id='slider'
           className='w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide relative'
         >
           {movies.map((item) => (

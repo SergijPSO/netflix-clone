@@ -1,24 +1,29 @@
-import { React, useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/AuthContext";
 
-const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const { user, logIn } = UserAuth();
+const SignUp = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { signUp } = useUserAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
     try {
-      await logIn(email, password);
+      await signUp({ email, password });
       navigate("/");
     } catch (error) {
       console.log(error);
-      setError(error.message);
     }
+  };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
 
   return (
@@ -32,41 +37,40 @@ const LogIn = () => {
       <div className='fixed w-full px-4 py-24 z-50'>
         <div className='max-w-[450px] h-[600px] mx-auto bg-black/75 text-white'>
           <div className='max-w-[320px] mx-auto py-16'>
-            <h1 className='text-3xl font-bold'>Sign In</h1>
-
-            {error ? (
-              <p className='p-3 bg-red-800 my-2 rounded'>{error}</p>
-            ) : null}
-
+            <h1 className='text-3xl font-bold'>Sign up</h1>
             <form onSubmit={handleSubmit} className='w-full flex flex-col py-4'>
               <input
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
+                value={email}
                 className='p-3 my-2 bg-gray-700 rounded'
                 type='email'
                 placeholder='email'
                 autoComplete='email'
               />
               <input
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
+                value={password}
                 className='p-3 my-2 bg-gray-700 rounded'
                 type='password'
                 placeholder='password'
                 autoComplete='current-password'
               />
               <button className='bg-red-600 py-3 my-6 rounded font-bold'>
-                Sign In
+                Sign Up
               </button>
 
               <div className='flex justify-between items-center text-sm text-gray-600'>
                 <p>
-                  <input className='mr-2' s type='checkbox' />
+                  <input className='mr-2' type='checkbox' />
                   Remember me
                 </p>
                 <p>Need help?</p>
               </div>
               <p className='py-8'>
-                <span className='text-gray-600'>New to Netflix? </span>{" "}
-                <Link to='/sign-up'>Sign Up</Link>
+                <span className='text-gray-600'>
+                  Already subscribed to Netflix?{" "}
+                </span>{" "}
+                <Link to='/login'>Sign In</Link>
               </p>
             </form>
           </div>
@@ -76,4 +80,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;

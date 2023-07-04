@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { UserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 
-const Movie = ({ item }) => {
+type MovieItemProps = {
+  id: string;
+  email: string;
+  title: string;
+  backdrop_path: string;
+};
+
+type MovieProps = {
+  item: MovieItemProps;
+};
+
+type UserType = {
+  email: string;
+};
+
+const Movie = ({ item }: MovieProps) => {
   const [like, setLike] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { user } = UserAuth();
+  const { user } = useUserAuth();
+  const currentUser = user as UserType;
 
-  const movieID = doc(db, "users", `${user?.email}`);
+  const movieID = doc(db, "users", `${currentUser?.email}`);
 
   const saveShow = async () => {
-    if (user?.email) {
+    if (currentUser?.email) {
       setLike(!like);
       setSaved(true);
       await updateDoc(movieID, {

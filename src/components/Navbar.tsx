@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserAuth } from "../context/AuthContext";
+import { useUserAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user, logOut } = UserAuth();
+  const { user, logOut } = useUserAuth();
 
   const handleLogOut = async () => {
     try {
@@ -14,7 +14,6 @@ const Navbar = () => {
       console.log(error);
     }
   };
-  // console.log(user);
 
   return (
     <div className='flex items-center justify-between p-4 z-[100] w-full absolute'>
