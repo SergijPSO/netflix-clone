@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/AuthContext";
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const { user, logOut } = useUserAuth();
 

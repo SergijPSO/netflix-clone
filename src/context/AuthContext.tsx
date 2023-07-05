@@ -40,46 +40,51 @@ export function AuthContextProvider({
 }) {
   const [user, setUser] = useState<UserType | null>(null);
 
-  function signUp({ email, password }: SigningProps) {
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential: UserCredential) => {
-        const newUser: UserType = {
-          email: userCredential.user?.email || "",
-        };
+  async function signUp({ email, password }: SigningProps) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const newUser: UserType = {
+        email: userCredential.user?.email || "",
+      };
 
-        setDoc(doc(db, "users", email), {
-          savedShows: [],
-        });
-
-        setUser(newUser);
-      })
-      .catch((error) => {
-        console.log("Sign up error:", error);
+      setDoc(doc(db, "users", email), {
+        savedShows: [],
       });
+
+      setUser(newUser);
+    } catch (error) {
+      console.log("Sign up error:", error);
+    }
   }
 
-  function logIn({ email, password }: SigningProps) {
-    return signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential: UserCredential) => {
-        const newUser: UserType = {
-          email: userCredential.user?.email || "",
-        };
+  async function logIn({ email, password }: SigningProps) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const newUser: UserType = {
+        email: userCredential.user?.email || "",
+      };
 
-        setUser(newUser);
-      })
-      .catch((error) => {
-        console.log("Login error:", error);
-      });
+      setUser(newUser);
+    } catch (error) {
+      console.log("Login error:", error);
+    }
   }
 
-  function handleLogOut() {
-    return signOut(auth)
-      .then(() => {
-        setUser(null);
-      })
-      .catch((error) => {
-        console.log("Logout error:", error);
-      });
+  async function handleLogOut() {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
   }
 
   useEffect(() => {

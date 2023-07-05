@@ -5,8 +5,14 @@ import { db } from "../firebase";
 import { updateDoc, doc, onSnapshot } from "firebase/firestore";
 import { AiOutlineClose } from "react-icons/ai";
 
+type SavedMovies = {
+  id: number;
+  img: string;
+  title: string;
+};
+
 const SavedShows = () => {
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<SavedMovies[]>([]);
   const { user } = useUserAuth();
 
   const slideLeft = () => {
@@ -39,7 +45,7 @@ const SavedShows = () => {
   }, [user?.email]);
 
   const movieRef = doc(db, "users", user?.email ?? "");
-  const deleteShow = async (passedID: string) => {
+  const deleteShow = async (passedID: number) => {
     try {
       const result = movies.filter((item) => item.id !== passedID);
       await updateDoc(movieRef, {

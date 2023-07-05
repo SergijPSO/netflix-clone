@@ -1,32 +1,22 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserAuth } from "../context/AuthContext";
+import { UserAuth } from "../context/AuthContext";
+import { useState } from "react";
 
-const LogIn: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string | undefined>(undefined);
-  const { logIn } = useUserAuth();
+const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { user, signUp } = UserAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(undefined);
     try {
-      await logIn({ email, password });
+      await signUp(email, password);
       navigate("/");
     } catch (error) {
       console.log(error);
-      setError((error as Error).message);
     }
-  };
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
   };
 
   return (
@@ -40,29 +30,24 @@ const LogIn: React.FC = () => {
       <div className='fixed w-full px-4 py-24 z-50'>
         <div className='max-w-[450px] h-[600px] mx-auto bg-black/75 text-white'>
           <div className='max-w-[320px] mx-auto py-16'>
-            <h1 className='text-3xl font-bold'>Sign In</h1>
-
-            {error && <p className='p-3 bg-red-800 my-2 rounded'>{error}</p>}
-
+            <h1 className='text-3xl font-bold'>Sign up</h1>
             <form onSubmit={handleSubmit} className='w-full flex flex-col py-4'>
               <input
-                onChange={handleEmailChange}
-                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className='p-3 my-2 bg-gray-700 rounded'
                 type='email'
                 placeholder='email'
                 autoComplete='email'
               />
               <input
-                onChange={handlePasswordChange}
-                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className='p-3 my-2 bg-gray-700 rounded'
                 type='password'
                 placeholder='password'
                 autoComplete='current-password'
               />
               <button className='bg-red-600 py-3 my-6 rounded font-bold'>
-                Sign In
+                Sign Up
               </button>
 
               <div className='flex justify-between items-center text-sm text-gray-600'>
@@ -73,8 +58,10 @@ const LogIn: React.FC = () => {
                 <p>Need help?</p>
               </div>
               <p className='py-8'>
-                <span className='text-gray-600'>New to Netflix? </span>{" "}
-                <Link to='/sign-up'>Sign Up</Link>
+                <span className='text-gray-600'>
+                  Already subscribed to Netflix?{" "}
+                </span>{" "}
+                <Link to='/login'>Sign In</Link>
               </p>
             </form>
           </div>
@@ -84,4 +71,4 @@ const LogIn: React.FC = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useUserAuth } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -20,8 +20,8 @@ type UserType = {
 };
 
 const Movie = ({ item }: MovieProps) => {
-  const [like, setLike] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [like, setLike] = useState<boolean>(false);
+  const [saved, setSaved] = useState<boolean>(false);
   const { user } = useUserAuth();
   const currentUser = user as UserType;
 

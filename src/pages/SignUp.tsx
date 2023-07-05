@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/AuthContext";
 
-const SignUp = () => {
+const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { signUp } = useUserAuth();

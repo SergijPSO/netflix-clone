@@ -8,7 +8,7 @@ import SignUp from "./pages/SignUp";
 import Account from "./pages/Account";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <AuthContextProvider>
@@ -29,6 +29,6 @@ function App() {
       </AuthContextProvider>
     </>
   );
-}
+};
 
 export default App;
