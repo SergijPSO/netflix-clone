@@ -33,7 +33,7 @@ const Main: React.FC = () => {
   };
 
   if (movies.length === 0 || !movie) {
-    return <div>Loading...</div>; // or any other placeholder content or loading indicator
+    return <div>Loading...</div>;
   }
 
   return (
