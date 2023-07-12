@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
-import Movie from "./Movie";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+
+import Movie from "./Movie";
 
 type RowProps = {
   title: string;
