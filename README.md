@@ -1,3 +1,22 @@
+Demo link ⬇️ ⬇️ ⬇️
+netflix-dac.vercel.app
+
+Stack of technologies that were used:
+firebase
+TMDB API
+Vercel deployment with setup of .env variables
+Firebase
+Typescript
+React.js
+Axios
+Firebase auth
+React icons
+Protected routes
+Firestore
+Tailwindcss
+Vercel
+React routing
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
